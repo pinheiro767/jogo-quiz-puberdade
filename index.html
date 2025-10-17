@@ -263,8 +263,6 @@
             box-shadow: 0 2px 8px rgba(79, 172, 254, 0.5);
         }
         
-        /* [ ... RESTANTE DO SEU CSS ORIGINAL ... ] */
-
         .options-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -297,7 +295,6 @@
             justify-content: space-between;
         }
         
-        /* [ ... KEYFRAMES E HOVER/ACTIVE STATES ... ] */
         @keyframes optionFadeIn {
             to {
                 opacity: 1;
@@ -372,9 +369,13 @@
     </style>
 </head>
 <body>
-    <audio id="bgm" src="assets/audio/bgm.mp3" loop></audio>
-    <audio id="win-sfx" src="assets/audio/win.wav"></audio>
-    <audio id="error-sfx" src="assets/audio/error.mp3"></audio>
+    <audio id="bgm" src="/jogo-quiz-puberdade/assets/audio/bgm.mp3" loop></audio>
+    <audio id="win-sfx" src="/jogo-quiz-puberdade/assets/audio/win.wav"></audio>
+    <audio id="error-sfx" src="/jogo-quiz-puberdade/assets/audio/error.mp3"></audio>
+    <audio id="coin-sfx" src="/jogo-quiz-puberdade/assets/audio/coin.wav"></audio>
+    <audio id="dice-sfx" src="/jogo-quiz-puberdade/assets/audio/dice_roll.ogg"></audio>
+    <audio id="move-sfx" src="/jogo-quiz-puberdade/assets/audio/move.mp3"></audio>
+
 
     <div class="particles" id="particles"></div>
 
@@ -393,7 +394,7 @@
             <p>Assista para entender o que está acontecendo com você!</p>
             <div class="video-container">
                 <video id="intro-video" width="100%" height="auto" controls>
-                    <source src="assets/video/Geração_de_Vídeo_de_Transformação_Adolescente.mp4" type="video/mp4">
+                    <source src="/jogo-quiz-puberdade/assets/video/Geração_de_Vídeo_de_Transformação_Adolescente.mp4" type="video/mp4">
                     Seu navegador não suporta a tag de vídeo.
                 </video>
             </div>
@@ -609,11 +610,20 @@
         const introVideo = document.getElementById('intro-video');
         const characterPhoto = document.getElementById('character-photo');
 
-        // --- CONFIGURAÇÃO DO PERSONAGEM (CAMINHOS DAS SUAS IMAGENS) ---
+        // Adicionando referências aos novos audios para que possam ser usados futuramente
+        const coinSfx = document.getElementById('coin-sfx');
+        const diceSfx = document.getElementById('dice-sfx');
+        const moveSfx = document.getElementById('move-sfx');
+
+
+        // Define o caminho base do repositório
+        const BASE_PATH = "/jogo-quiz-puberdade/";
+
+        // --- CONFIGURAÇÃO DO PERSONAGEM (CAMINHOS CORRIGIDOS) ---
         const characterStates = {
-            neutral: 'url("character_assets/garoto-duvida.jpg")', 
-            correct: 'url("character_assets/garoto-feliz.jpg")', 
-            incorrect: 'url("character_assets/garoto-bravo.jpg")' 
+            neutral: 'url(' + BASE_PATH + 'character_assets/garoto-duvida.jpg)', 
+            correct: 'url(' + BASE_PATH + 'character_assets/garoto-feliz.jpg)', 
+            incorrect: 'url(' + BASE_PATH + 'character_assets/garoto-bravo.jpg)' 
         };
 
 
