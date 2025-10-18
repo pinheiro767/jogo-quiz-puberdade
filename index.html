@@ -1,410 +1,946 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jornada da Puberdade Masculina: O Herói do Conhecimento</title>
-    
-    <link rel="stylesheet" href="css/styles.css">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Puberdade: Conhecendo as Transformações do Meu Corpo</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-attachment: fixed;
+            color: #333;
+            overflow-x: hidden;
+            min-height: 100%;
+        }
 
-</head>
-<body>
-    
-    <div id="splash-screen" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 10001; transition: opacity 0.5s ease;">
-        <h1 style="font-size: 2.5em; margin-bottom: 30px; text-align: center;">Jornada do Herói do Conhecimento</h1>
-        <p style="margin-bottom: 30px; opacity: 0.9;">O áudio será ativado com o seu clique.</p>
-        <button id="start-button" style="padding: 15px 30px; font-size: 1.2em; background: #4CAF50; border: none; color: white; font-weight: bold; border-radius: 10px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
-            🎵 Iniciar Jogo e Ligar Som
-        </button>
-    </div>
-    <div class="game-container">
-        <div class="sidebar">
+        html, body {
+            height: 100%;
+        }
+
+        .game-container {
+            display: flex;
+            min-height: 100%;
+            position: relative;
+        }
+
+
+
+        .main-content {
+            width: 100%;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100%;
+            padding: 20px;
+        }
+
+
+
+        .floating-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            font-size: 1.5em;
+            animation: float 8s infinite linear;
+            opacity: 0.7;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-10vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        #character-container {
+            position: relative;
+            text-align: center;
+        }
+
+        #boy-character {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ffcc80, #ffb74d);
+            border: 5px solid rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            animation: characterBounce 3s ease-in-out infinite;
+            object-fit: cover;
+        }
+
+        #boy-character:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        @keyframes characterBounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        #thought-bubble {
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 15px 20px;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+            color: #333;
+            white-space: nowrap;
+            animation: bubbleBounce 2s ease-in-out infinite;
+        }
+
+        #thought-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid white;
+        }
+
+        @keyframes bubbleBounce {
+            0%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            50% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        .message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #4caf50, #45a049);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+            transform: translateX(400px);
+            transition: transform 0.5s ease;
+            z-index: 1000;
+        }
+
+        .message.show {
+            transform: translateX(0);
+        }
+
+        #question-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+
+        #modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80%;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.5s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        #modal-scenario-text {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            line-height: 1.5;
+        }
+
+        .modal-option {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            margin: 10px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            width: 100%;
+            text-align: left;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .modal-option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+        }
+
+        #mute-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 1.5em;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        #mute-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease-in-out infinite;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10001;
+            transition: opacity 0.8s ease;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #splash-screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="stars" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="white" opacity="0.3"/></pattern></defs><rect width="100" height="100" fill="url(%23stars)"/></svg>');
+            animation: starTwinkle 4s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        @keyframes starTwinkle {
+            0%, 100% {
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 0.8;
+            }
+        }
+
+        .splash-content {
+            text-align: center;
+            max-width: 90%;
+            z-index: 2;
+            position: relative;
+        }
+
+        #splash-screen h1 {
+            font-size: clamp(1.8rem, 5vw, 3.5rem);
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+            animation: titleFloat 3s ease-in-out infinite;
+            background: linear-gradient(45deg, #fff, #f0f8ff, #e6f3ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+            font-weight: 800;
+        }
+
+        @keyframes titleFloat {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        #splash-screen p {
+            margin-bottom: 40px;
+            opacity: 0.95;
+            font-size: clamp(1rem, 3vw, 1.4rem);
+            animation: fadeInUp 1s ease-out 0.5s both;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            line-height: 1.4;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 0.95;
+                transform: translateY(0);
+            }
+        }
+
+        #start-button {
+            padding: 18px 40px;
+            font-size: clamp(1.1rem, 3vw, 1.4rem);
+            background: linear-gradient(135deg, #4CAF50, #45a049, #66bb6a);
+            background-size: 200% 200%;
+            border: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+            transition: all 0.4s ease;
+            animation: buttonPulse 2s ease-in-out infinite, fadeInUp 1s ease-out 1s both;
+            position: relative;
+            overflow: hidden;
+            min-width: 200px;
+        }
+
+        #start-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        #start-button:hover::before {
+            left: 100%;
+        }
+
+        #start-button:hover {
+            background-position: 100% 0;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(76, 175, 80, 0.6);
+        }
+
+        #start-button:active {
+            transform: translateY(-1px) scale(1.02);
+        }
+
+        @keyframes buttonPulse {
+            0%, 100% {
+                box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+            }
+            50% {
+                box-shadow: 0 8px 25px rgba(76, 175, 80, 0.7), 0 0 30px rgba(76, 175, 80, 0.3);
+            }
+        }
+
+        .splash-decorations {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .floating-icon {
+            position: absolute;
+            font-size: clamp(1.5rem, 4vw, 3rem);
+            animation: floatAround 15s linear infinite;
+            opacity: 0.6;
+        }
+
+        .floating-icon:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+        .floating-icon:nth-child(2) { top: 20%; right: 15%; animation-delay: -3s; }
+        .floating-icon:nth-child(3) { bottom: 30%; left: 20%; animation-delay: -6s; }
+        .floating-icon:nth-child(4) { bottom: 15%; right: 10%; animation-delay: -9s; }
+        .floating-icon:nth-child(5) { top: 50%; left: 5%; animation-delay: -12s; }
+        .floating-icon:nth-child(6) { top: 60%; right: 5%; animation-delay: -15s; }
+
+        @keyframes floatAround {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-20px) rotate(90deg);
+            }
+            50% {
+                transform: translateY(-10px) rotate(180deg);
+            }
+            75% {
+                transform: translateY(-30px) rotate(270deg);
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            #splash-screen {
+                padding: 20px;
+            }
             
-            <div class="stats">
-                <h3>🏆 Conquistas do Herói</h3>
-                <div class="stat-item">
-                    <span>🧠 Conhecimento (Pts):</span>
-                    <span id="knowledge">50</span>
-                </div>
-                <div class="stat-item">
-                    <span>🏅 Medalhas Acumuladas:</span>
-                    <span id="medals">0</span>
-                </div>
-            </div>
+            .splash-content {
+                max-width: 95%;
+            }
             
-            <div class="stats">
-                <h3>📚 Ganhar Conhecimento</h3>
-                <div class="job-option" onclick="doJob('readPubertyBook', 50, 6000, '🧠')">
-                    <div class="job-icon">📖</div>
-                    <div class="job-info">
-                        <div class="job-name">Pesquisar/Ler sobre Puberdade</div>
-                        <div class="job-reward">+50 Conhecimento, +15 Autoestima (6s)</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="controls">
-                <button class="btn" onclick="resetRoom()">🔄 Recomeçar Jornada</button>
-            </div>
-        </div>
-
-        <div class="main-content" id="main-content">
-            <div class="floating-particles">
-                <div class="particle">✨</div>
-                <div class="particle">🌟</div>
-                <div class="particle">💫</div>
-                <div class="particle">⭐</div>
-                <div class="particle">🔮</div>
-                <div class="particle">💎</div>
-                <div class="particle">🌈</div>
-                <div class="particle">🎯</div>
-            </div>
+            #splash-screen h1 {
+                margin-bottom: 15px;
+            }
             
-            <div id="character-container">
-                <img id="boy-character" src="images/1000006911.png" alt="Garoto Pronta para Aprender" onclick="triggerRandomScenario()"> 
-                <div id="thought-bubble">Clique no garoto para aprender!</div>
-            </div>
-        </div>
+            #splash-screen p {
+                margin-bottom: 30px;
+            }
+            
+            #start-button {
+                padding: 15px 30px;
+                min-width: 180px;
+            }
+            
+            .floating-icon {
+                font-size: clamp(1rem, 3vw, 2rem);
+            }
+        }
+
+        @media (max-width: 480px) {
+            #splash-screen {
+                padding: 15px;
+            }
+            
+            #splash-screen h1 {
+                margin-bottom: 10px;
+            }
+            
+            #splash-screen p {
+                margin-bottom: 25px;
+            }
+            
+            #start-button {
+                padding: 12px 25px;
+                min-width: 160px;
+            }
+        }
+
+        @media (orientation: landscape) and (max-height: 600px) {
+            #splash-screen {
+                padding: 10px;
+            }
+            
+            #splash-screen h1 {
+                font-size: clamp(1.5rem, 4vh, 2.5rem);
+                margin-bottom: 10px;
+            }
+            
+            #splash-screen p {
+                font-size: clamp(0.9rem, 2.5vh, 1.2rem);
+                margin-bottom: 20px;
+            }
+            
+            #start-button {
+                padding: 10px 25px;
+                font-size: clamp(1rem, 2.5vh, 1.2rem);
+            }
+        }
+
+        .progress-indicator {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        @media (max-width: 768px) {
+            #boy-character {
+                width: 150px;
+                height: 150px;
+            }
+
+            #thought-bubble {
+                font-size: 0.9em;
+                padding: 10px 15px;
+            }
+
+            #modal-content {
+                padding: 20px;
+                margin: 20px;
+            }
+        }
+
+        .working-animation {
+            animation: working 2s ease-in-out;
+        }
+
+        @keyframes working {
+            0%, 100% {
+                transform: scale(1) rotate(0deg);
+            }
+            25% {
+                transform: scale(1.1) rotate(-5deg);
+            }
+            75% {
+                transform: scale(1.1) rotate(5deg);
+            }
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div id="splash-screen">
+   <div class="splash-decorations">
+    <div class="floating-icon">
+     🧠
     </div>
-    
-    <div class="message" id="message"></div>
-
-    <div id="question-modal">
-        <div id="modal-content">
-            <h3 id="modal-scenario-text"></h3>
-            <div id="modal-options-container"></div>
-        </div>
+    <div class="floating-icon">
+     💪
     </div>
+    <div class="floating-icon">
+     📚
+    </div>
+    <div class="floating-icon">
+     🏆
+    </div>
+    <div class="floating-icon">
+     ⭐
+    </div>
+    <div class="floating-icon">
+     🌟
+    </div>
+   </div>
+   <div class="splash-content">
+    <h1 id="game-title">Puberdade: Conhecendo as Transformações do Meu Corpo</h1>
+    <p id="welcome-message">O áudio será ativado com o seu clique.</p><button id="start-button"> 🎵 Iniciar Jogo e Ligar Som </button>
+   </div>
+  </div>
+  <div class="game-container">
+   <div class="main-content" id="main-content">
+    <div class="floating-particles">
+     <div class="particle">
+      ✨
+     </div>
+     <div class="particle">
+      🌟
+     </div>
+     <div class="particle">
+      💫
+     </div>
+     <div class="particle">
+      ⭐
+     </div>
+     <div class="particle">
+      🔮
+     </div>
+     <div class="particle">
+      💎
+     </div>
+     <div class="particle">
+      🌈
+     </div>
+     <div class="particle">
+      🎯
+     </div>
+    </div>
+    <div id="character-container">
+     <div id="boy-character" onclick="triggerRandomScenario()"><span style="font-size: 4em;" id="character-name">🧑‍🎓</span>
+     </div>
+     <div id="thought-bubble">
+      Clique no garoto para aprender!
+     </div>
+    </div>
+   </div>
+  </div>
+  <div class="message" id="message"></div>
+  <div id="question-modal">
+   <div id="modal-content">
+    <h3 id="modal-scenario-text"></h3>
+    <div id="modal-options-container"></div>
+   </div>
+  </div><button id="mute-button" onclick="toggleMute()">🔇</button>
+  <script>
+        const defaultConfig = {
+            game_title: "Puberdade: Conhecendo as Transformações do Meu Corpo",
+            character_name: "🧑‍🎓",
+            welcome_message: "O áudio será ativado com o seu clique."
+        };
 
-    <button id="mute-button" onclick="toggleMute()">🔇</button>
-
-    <audio id="background-music" loop muted volume="0.3">
-        <source src="audio/bgm.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="sfx-click" muted>
-        <source src="audio/dice_roll.ogg" type="audio/ogg">
-    </audio>
-    <audio id="sfx-success" muted>
-        <source src="audio/coin.wav" type="audio/wav">
-    </audio>
-    <audio id="sfx-fail" muted>
-        <source src="audio/error.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="sfx-win" muted>
-        <source src="audio/win.wav" type="audio/wav">
-    </audio>
-
-    <script>
-        // --- VARIÁVEIS DE ESTADO E DADOS ---
+        // Game state
         let gameState = {
-            health: 70,       
-            knowledge: 50,    
-            confidence: 60,   
-            hygiene: 65,
-            medals: 0, 
-            activeJobs: new Map()
-        };
-        
-        // Referências de Áudio e DOM
-        const bgMusic = document.getElementById('background-music');
-        const sfxClick = document.getElementById('sfx-click');
-        const sfxSuccess = document.getElementById('sfx-success');
-        const sfxFail = document.getElementById('sfx-fail');
-        const sfxWin = document.getElementById('sfx-win');
-        const muteButton = document.getElementById('mute-button');
-        let isMuted = true;
-
-        const boyCharacter = document.getElementById('boy-character');
-        const thoughtBubble = document.getElementById('thought-bubble');
-        const mainContent = document.getElementById('main-content');
-
-        // Mapeamento das imagens
-        const imageMap = {
-            NEUTRAL: '1000006911.png', 
-            HAPPY: '1000006910.png',   
-            SAD: '1000006909.png'      
+            knowledge: 50,
+            medals: 0,
+            selfEsteem: 50,
+            isMuted: true,
+            isWorking: false
         };
 
-        // Cenários educativos sobre puberdade masculina (Dúvidas)
+        // Puberty education scenarios
         const scenarios = [
-            // PERGUNTAS INICIAIS
             {
-                text: "Meus pelos estão crescendo em lugares novos. Isso é normal?",
+                text: "Meus pelos estão crescendo, é normal?",
                 options: [
-                    { text: "Fico preocupado e tento removê-los sem saber como.", effects: { confidence: -10, knowledge: -5 }, sfx: 'fail' },
-                    { text: "Entendo que é normal - hormônios causam crescimento de pelos.", effects: { confidence: +15, knowledge: +20 }, sfx: 'success' }
-                ]
-            },
-            {
-                text: "Tenho curiosidade sobre masturbação. É normal na adolescência?",
-                options: [
-                    { text: "Sinto vergonha e acho que é errado ou doentio.", effects: { confidence: -15, knowledge: -10 }, sfx: 'fail' },
-                    { text: "Entendo que é normal e saudável - faz parte do autoconhecimento.", effects: { confidence: +20, knowledge: +25 }, sfx: 'success' }
+                    { text: "Não, isso é estranho e preocupante", points: -10, feedback: "❌ Na verdade, é completamente normal! Faz parte da puberdade." },
+                    { text: "Sim! O crescimento de pelos corporais é um sinal comum da puberdade causado por hormônios", points: 40, feedback: "✅ Perfeito! É exatamente isso - os hormônios causam o crescimento dos pelos." },
+                    { text: "Não sei, vou perguntar para alguém", points: 25, feedback: "✅ Boa ideia tirar dúvidas! E sim, é totalmente normal." }
                 ]
             },
             {
-                text: "Minha voz está falhando e às vezes fica rouca. Isso é normal?",
+                text: "A masturbação é uma prática normal na adolescência?",
                 options: [
-                    { text: "Fico envergonhado e evito falar alto na escola.", effects: { confidence: -15, knowledge: -5 }, sfx: 'fail' },
-                    { text: "Entendo que a laringe está crescendo e é temporário. Aceito a fase.", effects: { confidence: +20, knowledge: +20 }, sfx: 'success' }
+                    { text: "Não, é algo errado e prejudicial", points: -15, feedback: "❌ Na verdade, é uma prática normal e saudável quando feita com higiene." },
+                    { text: "Sim, é normal e saudável! É uma forma de autoconhecimento e alívio de tensão, comum durante o desenvolvimento", points: 45, feedback: "✅ Excelente! É realmente uma parte normal do desenvolvimento sexual saudável." },
+                    { text: "Não sei, nunca pensei sobre isso", points: 10, feedback: "✅ É normal ter dúvidas! É uma prática saudável e comum na adolescência." }
                 ]
             },
-             {
-                text: "Meus amigos já estão mais desenvolvidos que eu. Devo me preocupar?",
+            {
+                text: "Meu corpo está estranho — o que é isso?",
                 options: [
-                    { text: "Me comparo constantemente e fico ansioso e inseguro.", effects: { confidence: -20, health: -5 }, sfx: 'fail' },
-                    { text: "Entendo que cada pessoa tem seu próprio ritmo de desenvolvimento.", effects: { confidence: +25, knowledge: +20 }, sfx: 'success' }
+                    { text: "Deve ser algum problema de saúde", points: -10, feedback: "❌ Provavelmente são mudanças normais da puberdade!" },
+                    { text: "As mudanças corporais fazem parte da puberdade. Elas variam entre pessoas e levam tempo", points: 40, feedback: "✅ Perfeito! Cada pessoa tem seu próprio ritmo de desenvolvimento." },
+                    { text: "Vou esperar passar sozinho", points: 5, feedback: "⚠️ É melhor entender o que está acontecendo - são mudanças normais da puberdade." }
                 ]
             },
-            // NOVAS PERGUNTAS ADICIONADAS
+            {
+                text: "Por que estou sempre cansado ultimamente?",
+                options: [
+                    { text: "Deve ser preguiça ou falta de vontade", points: -10, feedback: "❌ Não é preguiça! É uma mudança normal da puberdade." },
+                    { text: "Durante a puberdade, o sono e hormônios mudam. É comum sentir mais cansaço", points: 40, feedback: "✅ Exato! O corpo está crescendo e os hormônios afetam o sono." },
+                    { text: "Vou dormir menos para me acostumar", points: -15, feedback: "❌ Pelo contrário! Na puberdade você precisa de mais sono, não menos." }
+                ]
+            },
+            {
+                text: "Minha voz está falhando e às vezes fica rouca, o que é isso?",
+                options: [
+                    { text: "Deve ser alguma doença na garganta", points: -10, feedback: "❌ Não é doença! É uma mudança normal da puberdade." },
+                    { text: "É normal! A laringe está crescendo. A voz 'quebra' por um tempo, mas depois se estabiliza", points: 40, feedback: "✅ Perfeito! A laringe cresce durante a puberdade, causando mudanças na voz." },
+                    { text: "Vou evitar falar até melhorar", points: -5, feedback: "❌ Não precisa evitar falar! É uma fase normal que vai passar." }
+                ]
+            },
+            {
+                text: "Devo me comparar com meus amigos que já estão mais desenvolvidos?",
+                options: [
+                    { text: "Sim, preciso me desenvolver igual a eles", points: -15, feedback: "❌ Cada pessoa tem seu próprio ritmo! Não se compare." },
+                    { text: "Não! Cada pessoa tem seu próprio ritmo. A puberdade pode começar em idades diferentes", points: 45, feedback: "✅ Excelente! Comparações são desnecessárias - cada um tem seu tempo." },
+                    { text: "Vou tentar acelerar meu desenvolvimento", points: -20, feedback: "❌ Não é possível acelerar! O desenvolvimento acontece naturalmente." }
+                ]
+            },
+            {
+                text: "É verdade que a gente começa a sentir cheiro de suor mais forte?",
+                options: [
+                    { text: "Não, isso não tem a ver com puberdade", points: -10, feedback: "❌ Tem sim! As glândulas de suor ficam mais ativas na puberdade." },
+                    { text: "Sim! As glândulas de suor ficam mais ativas. Desodorante e banho diário ajudam", points: 40, feedback: "✅ Perfeito! Higiene diária se torna ainda mais importante na puberdade." },
+                    { text: "Vou usar perfume para disfarçar", points: 10, feedback: "⚠️ Perfume não substitui higiene! Banho diário e desodorante são essenciais." }
+                ]
+            },
+            {
+                text: "Eu choro por coisas bobas ou sinto raiva sem motivo. É só frescura?",
+                options: [
+                    { text: "Sim, é frescura e preciso parar com isso", points: -20, feedback: "❌ Não é frescura! São mudanças hormonais reais e normais." },
+                    { text: "Não é frescura! São mudanças hormonais que afetam o humor. É normal sentir emoções intensas", points: 45, feedback: "✅ Exato! Os hormônios realmente afetam as emoções na puberdade." },
+                    { text: "Vou tentar controlar melhor", points: 15, feedback: "✅ É bom ter autocontrole, mas lembre-se: as mudanças hormonais são normais!" }
+                ]
+            },
+            {
+                text: "É obrigatório ter um pênis grande para ser 'homem'?",
+                options: [
+                    { text: "Sim, o tamanho define a masculinidade", points: -25, feedback: "❌ Isso é um mito prejudicial! Masculinidade não se define pelo tamanho." },
+                    { text: "Não! O tamanho varia muito e não define masculinidade. O importante é o desenvolvimento saudável", points: 50, feedback: "✅ Perfeito! Masculinidade não tem a ver com tamanho - cada corpo é único." },
+                    { text: "Não sei, nunca pensei sobre isso", points: 10, feedback: "✅ É normal ter dúvidas! O importante é saber que tamanho não define masculinidade." }
+                ]
+            },
             {
                 text: "Ter 'sonhos molhados' ou acordar com a roupa úmida é normal?",
                 options: [
-                    { text: "Sim! São 'poluições noturnas', o corpo libera excesso de sêmen.", effects: { confidence: +25, knowledge: +20 }, sfx: 'success' },
-                    { text: "Não, isso é muito estranho e deve ser um problema hormonal.", effects: { confidence: -15, knowledge: -10 }, sfx: 'fail' }
+                    { text: "Não, isso é estranho e preocupante", points: -15, feedback: "❌ Na verdade, é completamente normal na puberdade!" },
+                    { text: "Sim! São as 'poluções noturnas', uma forma normal do corpo liberar o excesso de sêmen na puberdade. Acontece durante o sono", points: 45, feedback: "✅ Excelente! É uma função corporal normal e saudável durante o desenvolvimento." },
+                    { text: "Vou tentar evitar que aconteça", points: -5, feedback: "❌ Não é possível evitar - é uma função natural do corpo durante a puberdade." }
                 ]
             },
             {
                 text: "O orgasmo dura sempre o mesmo tempo para todas as pessoas?",
                 options: [
-                    { text: "Não! A duração e a intensidade são diferentes para cada pessoa e momento.", effects: { confidence: +10, knowledge: +20 }, sfx: 'success' },
-                    { text: "Sim, há um tempo médio, se for diferente, algo pode estar errado.", effects: { confidence: -5, knowledge: -5 }, sfx: 'fail' }
+                    { text: "Sim, é igual para todo mundo", points: -10, feedback: "❌ Na verdade, varia muito de pessoa para pessoa!" },
+                    { text: "Não! O orgasmo é muito variável. A duração e a intensidade são diferentes para cada pessoa e até para a mesma pessoa em momentos diferentes", points: 40, feedback: "✅ Perfeito! Cada corpo é único e as experiências variam muito." },
+                    { text: "Não sei, nunca pensei sobre isso", points: 10, feedback: "✅ É normal ter dúvidas! Cada pessoa tem experiências diferentes e únicas." }
                 ]
             },
             {
                 text: "Ter uma ereção 'do nada' (sem pensar nisso) é normal?",
                 options: [
-                    { text: "Sim! É comum na puberdade, causado por reflexos nervosos ou hormônios. É um sinal de corpo saudável.", effects: { confidence: +25, knowledge: +25 }, sfx: 'success' },
-                    { text: "Não, é constrangedor e significa que estou tendo pensamentos inadequados.", effects: { confidence: -20, knowledge: -10 }, sfx: 'fail' }
+                    { text: "Não, só deveria acontecer quando penso em algo", points: -10, feedback: "❌ Na verdade, ereções espontâneas são muito comuns na puberdade!" },
+                    { text: "Sim! As ereções espontâneas são muito comuns na puberdade. São causadas por reflexos nervosos ou hormônios, e não por pensamentos sexuais. É um sinal de corpo saudável", points: 45, feedback: "✅ Excelente! É uma resposta corporal normal e saudável durante o desenvolvimento." },
+                    { text: "É embaraçoso, vou tentar evitar", points: 5, feedback: "⚠️ Não é possível evitar - é uma função natural! Não há motivo para embaraço." }
                 ]
             },
             {
                 text: "O que eu sinto não é importante. Devo guardar tudo para mim?",
                 options: [
-                    { text: "Não! Compartilhar sentimentos com alguém de confiança é fundamental para a saúde mental.", effects: { confidence: +30, health: +15 }, sfx: 'success' },
-                    { text: "Sim, é melhor ser forte e não incomodar os outros com meus problemas.", effects: { confidence: -20, health: -15 }, sfx: 'fail' }
+                    { text: "Sim, homens devem ser fortes e não mostrar sentimentos", points: -25, feedback: "❌ Isso é um mito prejudicial! Expressar sentimentos é saudável para todos." },
+                    { text: "Não! Compartilhar sentimentos com alguém de confiança é fundamental para a saúde mental", points: 50, feedback: "✅ Perfeito! Saúde mental é fundamental - seus sentimentos são importantes!" },
+                    { text: "Só devo falar se for algo muito sério", points: 10, feedback: "⚠️ Todos os sentimentos são válidos! É sempre bom ter alguém para conversar." }
                 ]
-            },
+            }
         ];
-        
-        // --- FUNÇÕES DE ÁUDIO ---
-        function playSound(soundName) {
-            if (isMuted) return;
-            const sounds = { 'click': sfxClick, 'success': sfxSuccess, 'fail': sfxFail, 'win': sfxWin };
-            const sound = sounds[soundName];
-            if (sound) {
-                sound.currentTime = 0;
-                // Adicionado .load() para forçar o navegador a ler o arquivo antes de tocar
-                sound.load(); 
-                sound.play().catch(e => console.log('Audio play failed:', e));
-            }
-        }
 
-        function toggleMute() {
-            isMuted = !isMuted;
-            bgMusic.muted = isMuted;
-            sfxClick.muted = isMuted;
-            sfxSuccess.muted = isMuted;
-            sfxFail.muted = isMuted;
-            sfxWin.muted = isMuted; 
-            muteButton.textContent = isMuted ? '🔇' : '🔊';
-
-            if (!isMuted) {
-                playMusic();
-            } else {
-                bgMusic.pause();
-                bgMusic.currentTime = 0;
-            }
-        }
-        
-        function playMusic() {
-            if (isMuted) return;
-            bgMusic.load(); 
-            bgMusic.play().catch(e => console.log("Autoplay music failed:", e));
-        }
-        // --- FIM DAS FUNÇÕES DE ÁUDIO ---
-        
-        // Função para trocar a imagem do avatar
-        function setCharacterImage(imageName) {
-            boyCharacter.src = `images/${imageName}`; 
-        }
-
-        // --- LÓGICA DE CENÁRIO E PROGRESSO ---
-        
-        function updateScenario() {
-            // A transição de fundo é tratada no CSS (adicionada no styles.css)
+        // Sound effects simulation
+        function playSound(type) {
+            if (gameState.isMuted) return;
             
-            if (gameState.medals >= 6) {
-                mainContent.className = 'main-content scenario-3'; 
-                showMessage("✨ Seu conhecimento atingiu a clareza máxima! Desbloqueou Cenário 3!", false);
-            } else if (gameState.medals >= 3) {
-                mainContent.className = 'main-content scenario-2';
-            } else {
-                mainContent.className = 'main-content scenario-1'; 
+            // Visual feedback for sound effects
+            const soundEffect = document.createElement('div');
+            soundEffect.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 3rem;
+                z-index: 1000;
+                pointer-events: none;
+                animation: soundEffect 1s ease-out forwards;
+            `;
+            
+            switch(type) {
+                case 'click':
+                    soundEffect.textContent = '🔊';
+                    break;
+                case 'success':
+                    soundEffect.textContent = '🎉';
+                    break;
+                case 'fail':
+                    soundEffect.textContent = '💫';
+                    break;
+                case 'win':
+                    soundEffect.textContent = '🏆';
+                    break;
             }
-        }
-
-        function updateStats() {
-            document.getElementById('knowledge').textContent = Math.round(gameState.knowledge) + ' pts';
-            document.getElementById('medals').textContent = gameState.medals; 
             
-            updateScenario();
+            document.body.appendChild(soundEffect);
+            setTimeout(() => document.body.removeChild(soundEffect), 1000);
         }
 
-        function giveRewardItem() {
-            gameState.medals += 1; 
-            applyEffects({ knowledge: 30, confidence: 15 }); 
+        function showMessage(text, type = 'success') {
+            const message = document.getElementById('message');
+            message.textContent = text;
+            message.className = `message show ${type}`;
             
-            showMessage('🎉 PRÊMIO! Você ganhou uma Medalha! Seu conhecimento está crescendo.', false);
-            playSound('win');
-            updateStats();
+            if (type === 'success') {
+                message.style.background = 'linear-gradient(135deg, #4caf50, #45a049)';
+            } else if (type === 'error') {
+                message.style.background = 'linear-gradient(135deg, #f44336, #d32f2f)';
+            }
+            
+            setTimeout(() => {
+                message.classList.remove('show');
+            }, 3000);
         }
 
 
-        // --- LÓGICA DE PERGUNTAS E INTERAÇÃO ---
+
+
+
         function triggerRandomScenario() {
-            if (document.getElementById('question-modal').style.display === 'flex') {
-                showMessage("Já temos uma dúvida ativa! Responda primeiro.", true);
-                playSound('fail');
-                return;
-            }
-            
             const scenario = scenarios[Math.floor(Math.random() * scenarios.length)];
-            showQuestionModal(scenario);
-            playSound('win'); 
-            
-            boyCharacter.classList.remove('boy-happy', 'boy-sad');
-            boyCharacter.classList.add('boy-sad'); 
-            
-            thoughtBubble.textContent = "Uau, preciso responder isso!";
+            showScenario(scenario);
+            playSound('click');
         }
 
-        function showQuestionModal(scenario) {
+        function showScenario(scenario) {
             const modal = document.getElementById('question-modal');
-            const text = document.getElementById('modal-scenario-text');
-            const container = document.getElementById('modal-options-container');
+            const scenarioText = document.getElementById('modal-scenario-text');
+            const optionsContainer = document.getElementById('modal-options-container');
             
-            text.textContent = scenario.text;
-            container.innerHTML = '';
+            scenarioText.textContent = scenario.text;
+            optionsContainer.innerHTML = '';
             
             scenario.options.forEach((option, index) => {
                 const button = document.createElement('button');
                 button.className = 'modal-option';
                 button.textContent = option.text;
-                button.onclick = () => selectOption(option, scenario);
-                container.appendChild(button);
+                button.onclick = () => selectOption(option);
+                optionsContainer.appendChild(button);
             });
             
             modal.style.display = 'flex';
         }
-        
-        function selectOption(option, scenario) {
-            applyEffects(option.effects);
-            document.getElementById('question-modal').style.display = 'none';
-            
-            playSound(option.sfx);
-            
-            const isCorrect = option.sfx === 'success';
 
-            const feedbackText = `${isCorrect ? '✅ Resposta Correta!' : '❌ BOMBA! Resposta Incorreta.'}`;
-            showMessage(feedbackText, !isCorrect); 
+        function selectOption(option) {
+            const modal = document.getElementById('question-modal');
             
-            // Reação do personagem
-            boyCharacter.classList.remove('boy-happy', 'boy-sad'); 
-            
-            if (isCorrect) {
-                setCharacterImage(imageMap.HAPPY);
-                boyCharacter.classList.add('boy-happy');
-                thoughtBubble.textContent = "Acertei! Me sinto um super-herói do conhecimento!";
-                giveRewardItem(); 
-            } else {
-                setCharacterImage(imageMap.SAD);
-                boyCharacter.classList.add('boy-sad');
-                thoughtBubble.textContent = "Que pena, essa dúvida me deixou confuso. Preciso estudar mais.";
-            }
-            
-            // Retorna ao estado neutro após 3 segundos
-            setTimeout(() => {
-                boyCharacter.classList.remove('boy-happy', 'boy-sad');
-                setCharacterImage(imageMap.NEUTRAL); 
-                thoughtBubble.textContent = "Clique no garoto para aprender!";
-            }, 3000);
-        }
-
-        // --- LÓGICA DE GERENCIAMENTO (MANTIDA) ---
-
-        function applyEffects(effects) {
-            Object.keys(effects).forEach(stat => {
-                if (gameState.hasOwnProperty(stat)) {
-                    if (stat !== 'knowledge') {
-                        gameState[stat] = Math.max(0, Math.min(100, gameState[stat] + effects[stat]));
-                    } else {
-                        gameState[stat] = Math.max(0, gameState[stat] + effects[stat]);
-                    }
-                }
-            });
-            if (gameState.health <= 0 || gameState.confidence <= 0) {
-                 showMessage('Fim de jogo! Você não conseguiu gerenciar bem seu desenvolvimento.', true);
-                 playSound('fail');
-                 setTimeout(() => resetRoom(), 3000);
-            }
-        }
-
-        function doJob(jobType, reward, duration, emoji) {
-            if (gameState.activeJobs.has(jobType)) return;
-            gameState.activeJobs.set(jobType, true);
-            
-            setTimeout(() => {
-                applyEffects({ knowledge: reward, confidence: 15 });
-                showMessage(`Atividade concluída! Ganho de ${reward} Conhecimento. 🧠`);
+            if (option.points > 0) {
                 playSound('success');
-                gameState.activeJobs.delete(jobType);
-                updateStats();
-            }, duration);
+            } else {
+                playSound('fail');
+            }
+            
+            showMessage(option.feedback);
+            modal.style.display = 'none';
         }
 
-        function resetRoom() {
-            window.location.reload(); 
+
+
+        function toggleMute() {
+            gameState.isMuted = !gameState.isMuted;
+            const muteButton = document.getElementById('mute-button');
+            muteButton.textContent = gameState.isMuted ? '🔇' : '🔊';
+            
+            showMessage(gameState.isMuted ? 'Som desligado' : 'Som ligado');
         }
 
-        function showMessage(text, isError = false) {
-            const message = document.getElementById('message');
-            message.textContent = text;
-            message.className = 'message' + (isError ? ' error' : '');
-            message.classList.add('show');
+        function startGame() {
+            const splashScreen = document.getElementById('splash-screen');
+            splashScreen.style.opacity = '0';
             
             setTimeout(() => {
-                message.classList.remove('show');
-            }, 6000);
+                splashScreen.style.display = 'none';
+            }, 500);
+            
+            gameState.isMuted = false;
+            document.getElementById('mute-button').textContent = '🔊';
+            
+
+            
+            // Initialize floating particles
+            initializeParticles();
         }
 
-        // --- FUNÇÃO DE INICIALIZAÇÃO CORRIGIDA ---
-        document.addEventListener('DOMContentLoaded', () => {
-            const startButton = document.getElementById('start-button');
-            
-            // ANTES DE TUDO, CONFIGURA O BOTÃO PARA INICIAR O JOGO E O ÁUDIO
-            startButton.addEventListener('click', () => {
-                const splashScreen = document.getElementById('splash-screen');
-                splashScreen.style.opacity = '0';
-                setTimeout(() => {
-                    splashScreen.style.display = 'none';
-                    initializeGame(); // INICIA O JOGO APÓS O CLIQUE
-                }, 500);
+        function initializeParticles() {
+            const particles = document.querySelectorAll('.particle');
+            particles.forEach((particle, index) => {
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
             });
-            
-            // O código abaixo é apenas para configurar o mute button no início, não inicia o jogo
-            muteButton.textContent = isMuted ? '🔇' : '🔊';
+        }
+
+        async function render(config) {
+            document.getElementById('game-title').textContent = config.game_title || defaultConfig.game_title;
+            document.getElementById('character-name').textContent = config.character_name || defaultConfig.character_name;
+            document.getElementById('welcome-message').textContent = config.welcome_message || defaultConfig.welcome_message;
+        }
+
+        // Event listeners
+        document.getElementById('start-button').addEventListener('click', startGame);
+
+        // Close modal when clicking outside
+        document.getElementById('question-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'question-modal') {
+                e.target.style.display = 'none';
+            }
         });
 
-        function initializeGame() {
-            // ESTA FUNÇÃO SÓ RODA DEPOIS QUE O USUÁRIO CLICOU
-            updateStats();
-            // Tenta ligar a música se não estiver no mudo
-            if (isMuted === false) { 
-                playMusic(); 
-            }
-            setupCharacterInteraction();
+        // Initialize game
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeParticles();
+        });
+
+        // Initialize Element SDK
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig,
+                render,
+                mapToCapabilities: () => ({
+                    recolorables: [],
+                    borderables: [],
+                    fontEditable: undefined,
+                    fontSizeable: undefined
+                }),
+                mapToEditPanelValues: (config) => new Map([
+                    ["game_title", config.game_title || defaultConfig.game_title],
+                    ["character_name", config.character_name || defaultConfig.character_name],
+                    ["welcome_message", config.welcome_message || defaultConfig.welcome_message]
+                ])
+            });
         }
+
+        // Add CSS animation for sound effects
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes soundEffect {
+                0% {
+                    opacity: 0;
+                    transform: translate(-50%, -50%) scale(0.5);
+                }
+                50% {
+                    opacity: 1;
+                    transform: translate(-50%, -50%) scale(1.3);
+                }
+                100% {
+                    opacity: 0;
+                    transform: translate(-50%, -50%) scale(1.8);
+                }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
-</body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9903fce7b10df1f2',t:'MTc2MDc0ODA2NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
