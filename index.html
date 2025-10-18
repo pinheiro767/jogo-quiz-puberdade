@@ -3,891 +3,408 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz da Puberdade: Descobrindo e Aprendendo</title>
+    <title>Jornada da Puberdade Masculina: O Herói do Conhecimento</title>
     
-    <style>
-        /* ==========================================================
-        [ SEU CÓDIGO CSS ORIGINAL COM TODAS AS ANIMAÇÕES ]
-        ========================================================== */
-        body {
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            background-attachment: fixed;
-            color: #333;
-            margin: 0;
-            padding: 10px;
-            min-height: 100%;
-            overflow-x: hidden;
-        }
+    <link rel="stylesheet" href="css/styles.css">
 
-        html, body {
-            height: 100%;
-        }
-
-        /* Animação de partículas flutuantes */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 50%;
-            animation: float 6s infinite linear;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-10vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        .container {
-            width: 95%;
-            max-width: 1000px;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(15px);
-            padding: clamp(20px, 5vw, 50px);
-            border-radius: 30px;
-            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.25);
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
-            animation: slideIn 0.8s ease-out;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(40px) scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: clamp(25px, 6vw, 50px);
-            animation: fadeInDown 1s ease-out 0.3s both;
-        }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .header h1 {
-            color: #4a5568;
-            font-size: clamp(2rem, 6vw, 3rem);
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .header p {
-            color: #718096;
-            font-size: clamp(1.1rem, 3.5vw, 1.4rem);
-            font-weight: 500;
-        }
-
-        #video-section, #quiz-section, #results-section {
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        #quiz-section, #results-section {
-            display: none;
-        }
-
-        .video-container {
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-            padding: clamp(25px, 6vw, 50px);
-            border-radius: 25px;
-            margin: 25px 0;
-            animation: pulse 3s infinite;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 15px 40px rgba(255, 107, 107, 0.3);
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.02);
-            }
-        }
-
-        #question-box {
-            display: flex;
-            align-items: flex-start;
-            gap: clamp(20px, 5vw, 40px);
-            margin-bottom: 40px;
-            min-height: clamp(140px, 25vw, 200px);
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            padding: clamp(20px, 5vw, 40px);
-            border-radius: 25px;
-            color: white;
-            animation: questionSlide 0.8s ease-out;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 20px 50px rgba(240, 147, 251, 0.4);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-        }
-
-        @keyframes questionSlide {
-            from {
-                opacity: 0;
-                transform: translateX(-40px) scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0) scale(1);
-            }
-        }
-
-        #question-box::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
-            animation: questionGlow 3s ease-in-out infinite;
-        }
-
-        @keyframes questionGlow {
-            0%, 100% {
-                left: -100%;
-            }
-            50% {
-                left: 100%;
-            }
-        }
-
-        #question-text {
-            flex-grow: 1;
-            font-size: clamp(1.2rem, 4vw, 1.7rem);
-            font-weight: 700;
-            text-align: left;
-            line-height: 1.5;
-            z-index: 1;
-            position: relative;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-        }
-
-        #character-photo {
-            width: clamp(80px, 18vw, 140px);
-            height: clamp(80px, 18vw, 140px);
-            border-radius: 50%;
-            background-color: #ffcc80; 
-            border: 4px solid rgba(255, 255, 255, 0.4);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-shrink: 0;
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
-            animation: characterBounce 3s ease-in-out infinite;
-            z-index: 1;
-            position: relative;
-            
-            /* ESTILOS DA IMAGEM */
-            background-size: cover;
-            background-position: center;
-            text-indent: -9999px; 
-            transition: background-image 0.5s ease-out, transform 0.3s ease-out;
-        }
-
-        @keyframes characterBounce {
-            0%, 100% {
-                transform: translateY(0) rotate(0deg);
-            }
-            25% {
-                transform: translateY(-8px) rotate(-2deg);
-            }
-            75% {
-                transform: translateY(-8px) rotate(2deg);
-            }
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 15px;
-            background-color: #e2e8f0;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            overflow: hidden;
-            box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
-            width: 0%;
-            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            box-shadow: 0 2px 8px rgba(79, 172, 254, 0.5);
-        }
-        
-        .options-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: clamp(15px, 4vw, 25px);
-            margin-bottom: 30px;
-        }
-
-        .option {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: clamp(18px, 5vw, 30px) clamp(25px, 6vw, 40px);
-            border-radius: 25px;
-            cursor: pointer;
-            text-align: left;
-            font-size: clamp(1.1rem, 3vw, 1.4rem);
-            font-weight: 600;
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 10px 35px rgba(102, 126, 234, 0.4);
-            position: relative;
-            overflow: hidden;
-            animation: optionFadeIn 0.8s ease-out forwards;
-            opacity: 0;
-            transform: translateY(40px) scale(0.9);
-            border: 3px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            min-height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        @keyframes optionFadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-        .option:nth-child(1) { 
-            animation-delay: 0.1s; 
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        .option:nth-child(2) { 
-            animation-delay: 0.2s; 
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        }
-        .option:nth-child(3) { 
-            animation-delay: 0.3s; 
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        }
-        .option:nth-child(4) { 
-            animation-delay: 0.4s; 
-            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-        }
-        .option:hover {
-            transform: translateY(-10px) scale(1.05);
-            box-shadow: 0 20px 50px rgba(102, 126, 234, 0.6);
-            border: 3px solid rgba(255, 255, 255, 0.5);
-        }
-        .correct {
-            background: linear-gradient(135deg, #4caf50, #45a049) !important;
-            box-shadow: 0 8px 30px rgba(76, 175, 80, 0.6) !important;
-            animation: correctPulse 0.8s ease-out;
-            border: 3px solid #66bb6a !important;
-        }
-        .incorrect {
-            background: linear-gradient(135deg, #f44336, #d32f2f) !important;
-            box-shadow: 0 8px 30px rgba(244, 67, 54, 0.6) !important;
-            animation: incorrectShake 0.8s ease-out;
-            border: 3px solid #ef5350 !important;
-        }
-        .feedback-correct {
-            background: linear-gradient(135deg, #c8e6c9, #a5d6a7);
-            color: #2e7d32;
-            border: 3px solid #4caf50;
-        }
-        .feedback-incorrect {
-            background: linear-gradient(135deg, #ffcdd2, #ef9a9a);
-            color: #c62828;
-            border: 3px solid #f44336;
-        }
-        .next-button, .start-button, .restart-button {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            color: white;
-            padding: clamp(15px, 4vw, 25px) clamp(30px, 7vw, 50px);
-            border: none;
-            border-radius: 35px;
-            font-size: clamp(1.1rem, 3.5vw, 1.5rem);
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 30px;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 10px 30px rgba(79, 172, 254, 0.5);
-            position: relative;
-            overflow: hidden;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-        }
-        #intro-video {
-            max-width: 100%;
-            height: auto;
-            border-radius: 15px; 
-        }
-
-    </style>
 </head>
 <body>
-    <audio id="bgm" src="/jogo-quiz-puberdade/assets/audio/bgm.mp3" loop></audio>
-    <audio id="win-sfx" src="/jogo-quiz-puberdade/assets/audio/win.wav"></audio>
-    <audio id="error-sfx" src="/jogo-quiz-puberdade/assets/audio/error.mp3"></audio>
-    <audio id="coin-sfx" src="/jogo-quiz-puberdade/assets/audio/coin.wav"></audio>
-    <audio id="dice-sfx" src="/jogo-quiz-puberdade/assets/audio/dice_roll.ogg"></audio>
-    <audio id="move-sfx" src="/jogo-quiz-puberdade/assets/audio/move.mp3"></audio>
-
-
-    <div class="particles" id="particles"></div>
-
-    <main class="container">
-        <div class="question-counter" id="question-counter" style="display: none;">
-            Pergunta <span id="current-question">1</span> de <span id="total-questions">15</span>
-        </div>
-
-        <header class="header">
-            <h1 id="main-title">🌟 Quiz da Puberdade</h1>
-            <p id="subtitle">Descobrindo e Aprendendo sobre as Mudanças do Corpo</p>
-        </header>
-
-        <section id="video-section">
-            <h2>🎬 Seu Corpo Está Mudando?</h2>
-            <p>Assista para entender o que está acontecendo com você!</p>
-            <div class="video-container">
-                <video id="intro-video" width="100%" height="auto" controls>
-                    <source src="/jogo-quiz-puberdade/assets/video/Geração_de_Vídeo_de_Transformação_Adolescente.mp4" type="video/mp4">
-                    Seu navegador não suporta a tag de vídeo.
-                </video>
-            </div>
-            <button onclick="startQuiz()" class="start-button">🚀 Começar o Quiz</button>
-        </section>
-
-        <section id="quiz-section">
-            <div class="progress-bar">
-                <div class="progress-fill" id="progress-fill"></div>
-            </div>
-            <div id="question-box">
-                <div id="question-text"></div>
-                <div id="character-photo">
-                    -
+    
+    <div id="splash-screen" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 10001; transition: opacity 0.5s ease;">
+        <h1 style="font-size: 2.5em; margin-bottom: 30px; text-align: center;">Jornada do Herói do Conhecimento</h1>
+        <p style="margin-bottom: 30px; opacity: 0.9;">O áudio será ativado com o seu clique.</p>
+        <button id="start-button" style="padding: 15px 30px; font-size: 1.2em; background: #4CAF50; border: none; color: white; font-weight: bold; border-radius: 10px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+            🎵 Iniciar Jogo e Ligar Som
+        </button>
+    </div>
+    <div class="game-container">
+        <div class="sidebar">
+            
+            <div class="stats">
+                <h3>🏆 Conquistas do Herói</h3>
+                <div class="stat-item">
+                    <span>🧠 Conhecimento (Pts):</span>
+                    <span id="knowledge">50</span>
+                </div>
+                <div class="stat-item">
+                    <span>🏅 Medalhas Acumuladas:</span>
+                    <span id="medals">0</span>
                 </div>
             </div>
-            <div id="options-container" class="options-grid"></div>
-            <div id="feedback"></div>
-            <button onclick="nextQuestion()" class="next-button" id="next-button">Próxima Pergunta ➡️</button>
-        </section>
+            
+            <div class="stats">
+                <h3>📚 Ganhar Conhecimento</h3>
+                <div class="job-option" onclick="doJob('readPubertyBook', 50, 6000, '🧠')">
+                    <div class="job-icon">📖</div>
+                    <div class="job-info">
+                        <div class="job-name">Pesquisar/Ler sobre Puberdade</div>
+                        <div class="job-reward">+50 Conhecimento, +15 Autoestima (6s)</div>
+                    </div>
+                </div>
+            </div>
 
-        <section id="results-section">
-            <h2>🎉 Parabéns! Você completou o quiz!</h2>
-            <div class="score-display" id="final-score"></div>
-            <div id="performance-message"></div>
-            <button onclick="restartQuiz()" class="restart-button">🔄 Fazer Quiz Novamente</button>
-        </section>
-    </main>
+            <div class="controls">
+                <button class="btn" onclick="resetRoom()">🔄 Recomeçar Jornada</button>
+            </div>
+        </div>
+
+        <div class="main-content" id="main-content">
+            <div class="floating-particles">
+                <div class="particle">✨</div>
+                <div class="particle">🌟</div>
+                <div class="particle">💫</div>
+                <div class="particle">⭐</div>
+                <div class="particle">🔮</div>
+                <div class="particle">💎</div>
+                <div class="particle">🌈</div>
+                <div class="particle">🎯</div>
+            </div>
+            
+            <div id="character-container">
+                <img id="boy-character" src="images/1000006911.png" alt="Garoto Pronta para Aprender" onclick="triggerRandomScenario()"> 
+                <div id="thought-bubble">Clique no garoto para aprender!</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="message" id="message"></div>
+
+    <div id="question-modal">
+        <div id="modal-content">
+            <h3 id="modal-scenario-text"></h3>
+            <div id="modal-options-container"></div>
+        </div>
+    </div>
+
+    <button id="mute-button" onclick="toggleMute()">🔇</button>
+
+    <audio id="background-music" loop muted volume="0.3">
+        <source src="audio/bgm.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="sfx-click" muted>
+        <source src="audio/dice_roll.ogg" type="audio/ogg">
+    </audio>
+    <audio id="sfx-success" muted>
+        <source src="audio/coin.wav" type="audio/wav">
+    </audio>
+    <audio id="sfx-fail" muted>
+        <source src="audio/error.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="sfx-win" muted>
+        <source src="audio/win.wav" type="audio/wav">
+    </audio>
 
     <script>
-        // 
-        // =======================================================
-        // JAVASCRIPT: LÓGICA DO JOGO, MÍDIA E ANIMAÇÕES VISUAIS
-        // =======================================================
-        // 
-
-        const questions = [
-            {
-                question: "A puberdade é um processo natural que acontece com todos os adolescentes. Em que idade ela geralmente começa?",
-                options: [
-                    "Entre 8 e 14 anos",
-                    "Apenas aos 16 anos",
-                    "Só depois dos 18 anos",
-                    "Não tem idade certa"
-                ],
-                correct: 0,
-                explanation: "A puberdade geralmente começa entre 8 e 14 anos, variando de pessoa para pessoa. É completamente normal!"
-            },
-            {
-                question: "Meus pelos estão crescendo, é normal?",
-                options: [
-                    "Não, isso é estranho",
-                    "Só acontece com algumas pessoas",
-                    "Sim! O crescimento de pelos corporais é um sinal comum da puberdade causado por hormônios",
-                    "Só meninos têm pelos"
-                ],
-                correct: 2,
-                explanation: "Sim! O crescimento de pelos corporais é um sinal comum da puberdade causado por hormônios. É completamente natural!"
-            },
-            {
-                question: "A masturbação é uma prática normal na adolescência?",
-                options: [
-                    "Não, é prejudicial",
-                    "Sim, é normal e saudável! É uma forma de autoconhecimento",
-                    "Só meninos fazem isso",
-                    "É algo vergonhoso"
-                ],
-                correct: 1,
-                explanation: "Sim, é normal e saudável! É uma forma de autoconhecimento e alívio de tensão, comum durante o desenvolvimento."
-            },
-            {
-                question: "Meu corpo está estranho — o que é isso?",
-                options: [
-                    "Você deve se preocupar",
-                    "As mudanças corporais fazem parte da puberdade e variam entre pessoas",
-                    "Isso não é normal",
-                    "Só acontece com você"
-                ],
-                correct: 1,
-                explanation: "As mudanças corporais fazem parte da puberdade. Elas variam entre pessoas e levam tempo para se completar."
-            },
-            {
-                question: "Por que estou sempre cansado ultimamente?",
-                options: [
-                    "Você está doente",
-                    "É preguiça",
-                    "Durante a puberdade, o sono e hormônios mudam. É comum sentir mais cansaço",
-                    "Você não está se alimentando bem"
-                ],
-                correct: 2,
-                explanation: "Durante a puberdade, o sono e hormônios mudam. É comum sentir mais cansaço e precisar de mais horas de sono."
-            },
-            {
-                question: "Minha voz está falhando e às vezes fica rouca, o que é isso?",
-                options: [
-                    "Você está doente",
-                    "É normal! A laringe está crescendo. A voz 'quebra' por um tempo, mas depois se estabiliza",
-                    "Isso só acontece com meninos",
-                    "Você deve parar de falar"
-                ],
-                correct: 1,
-                explanation: "É normal! A laringe está crescendo. A voz 'quebra' por um tempo, mas depois se estabiliza. Acontece principalmente com meninos."
-            },
-            {
-                question: "Devo me comparar com meus amigos que já estão mais desenvolvidos?",
-                options: [
-                    "Sim, para saber se você é normal",
-                    "Não! Cada pessoa tem seu próprio ritmo. A puberdade pode começar em idades diferentes",
-                    "Só se eles forem da sua idade",
-                    "Você deve se preocupar se for diferente"
-                ],
-                correct: 1,
-                explanation: "Não! Cada pessoa tem seu próprio ritmo. A puberdade pode começar em idades diferentes e isso é completamente normal."
-            },
-            {
-                question: "É verdade que a gente começa a sentir cheiro de suor mais forte?",
-                options: [
-                    "Não, isso é imaginação",
-                    "Sim! As glândulas de suor ficam mais ativas. Desodorante e banho diário ajudam",
-                    "Só acontece se você não tomar banho",
-                    "É só com meninos"
-                ],
-                correct: 1,
-                explanation: "Sim! As glândulas de suor ficam mais ativas durante a puberdade. Desodorante e banho diário ajudam a manter a higiene."
-            },
-            {
-                question: "Eu choro por coisas bobas ou sinto raiva sem motivo. É só frescura?",
-                options: [
-                    "Sim, você está sendo dramático",
-                    "Não é frescura! São mudanças hormonais que afetam o humor",
-                    "Só meninas sentem isso",
-                    "Você deve controlar melhor suas emoções"
-                ],
-                correct: 1,
-                explanation: "Não é frescura! São mudanças hormonais que afetam o humor. É normal sentir emoções intensas durante a puberdade."
-            },
-            {
-                question: "Ter 'sonhos molhados' ou acordar com a roupa úmida é normal?",
-                options: [
-                    "Não, isso é estranho",
-                    "Sim! São as 'poluções noturnas', uma forma normal do corpo se desenvolver",
-                    "Só acontece se você pensar em coisas erradas",
-                    "É um problema de saúde"
-                ],
-                correct: 1,
-                explanation: "Sim! São as 'poluções noturnas', uma forma normal do corpo liberar o excesso durante a puberdade. Acontece durante o sono."
-            },
-            {
-                question: "Ter uma ereção 'do nada' (sem pensar nisso) é normal?",
-                options: [
-                    "Não, isso é estranho",
-                    "Sim! As ereções espontâneas são muito comuns na puberdade",
-                    "Só acontece se você pensar em algo",
-                    "É um problema hormonal"
-                ],
-                correct: 1,
-                explanation: "Sim! As ereções espontâneas são muito comuns na puberdade. São causadas por reflexos nervosos ou hormônios, é um sinal de corpo saudável."
-            },
-            {
-                question: "O que eu sinto não é importante. Devo guardar tudo para mim?",
-                options: [
-                    "Sim, ninguém vai entender mesmo",
-                    "Não! Compartilhar sentimentos com alguém de confiança é fundamental",
-                    "Só se for algo muito sério",
-                    "Adultos não entendem adolescentes"
-                ],
-                correct: 1,
-                explanation: "Não! Compartilhar sentimentos com alguém de confiança é fundamental para a saúde mental. Seus sentimentos são importantes!"
-            },
-            {
-                question: "Se você tem dúvidas sobre as mudanças em seu corpo, o melhor é:",
-                options: [
-                    "Ignorar e esperar passar",
-                    "Só pesquisar na internet",
-                    "Conversar com pais, médicos ou adultos de confiança",
-                    "Perguntar só para amigos"
-                ],
-                correct: 2,
-                explanation: "Adultos de confiança, como pais, médicos ou professores, podem dar informações corretas e te ajudar!"
-            },
-            {
-                question: "A puberdade afeta apenas o corpo físico?",
-                options: [
-                    "Sim, só mudanças físicas",
-                    "Não, também afeta emoções e pensamentos",
-                    "Só afeta meninas emocionalmente",
-                    "Só afeta meninos fisicamente"
-                ],
-                correct: 1,
-                explanation: "A puberdade traz mudanças físicas, emocionais e mentais. É um processo completo de crescimento!"
-            },
-            {
-                question: "A coisa mais importante para lembrar sobre a puberdade é:",
-                options: [
-                    "Que você deve se envergonhar das mudanças",
-                    "Que é um processo natural e normal",
-                    "Que você deve esconder tudo dos pais",
-                    "Que só pessoas especiais passam por isso"
-                ],
-                correct: 1,
-                explanation: "A puberdade é um processo natural que todos passam. Não há nada de errado ou vergonhoso nisso!"
-            }
-        ];
+        // --- VARIÁVEIS DE ESTADO E DADOS ---
+        let gameState = {
+            health: 70,       
+            knowledge: 50,    
+            confidence: 60,   
+            hygiene: 65,
+            medals: 0, 
+            activeJobs: new Map()
+        };
         
-        let currentQuestionIndex = 0;
-        let score = 0;
-        let answered = false;
+        // Referências de Áudio e DOM
+        const bgMusic = document.getElementById('background-music');
+        const sfxClick = document.getElementById('sfx-click');
+        const sfxSuccess = document.getElementById('sfx-success');
+        const sfxFail = document.getElementById('sfx-fail');
+        const sfxWin = document.getElementById('sfx-win');
+        const muteButton = document.getElementById('mute-button');
+        let isMuted = true;
 
-        // --- REFERÊNCIAS DE MÍDIA E ELEMENTOS ---
-        const bgm = document.getElementById('bgm');
-        const winSfx = document.getElementById('win-sfx');
-        const errorSfx = document.getElementById('error-sfx');
-        const introVideo = document.getElementById('intro-video');
-        const characterPhoto = document.getElementById('character-photo');
+        const boyCharacter = document.getElementById('boy-character');
+        const thoughtBubble = document.getElementById('thought-bubble');
+        const mainContent = document.getElementById('main-content');
 
-        const coinSfx = document.getElementById('coin-sfx');
-        const diceSfx = document.getElementById('dice-sfx');
-        const moveSfx = document.getElementById('move-sfx');
-
-
-        // Define o caminho base do repositório
-        const BASE_PATH = "/jogo-quiz-puberdade/";
-
-        // --- CONFIGURAÇÃO DO PERSONAGEM (CAMINHOS CORRIGIDOS) ---
-        const characterStates = {
-            neutral: 'url(' + BASE_PATH + 'character_assets/garoto-duvida.jpg)', 
-            correct: 'url(' + BASE_PATH + 'character_assets/garoto-feliz.jpg)', 
-            incorrect: 'url(' + BASE_PATH + 'character_assets/garoto-bravo.jpg)' 
+        // Mapeamento das imagens
+        const imageMap = {
+            NEUTRAL: '1000006911.png', 
+            HAPPY: '1000006910.png',   
+            SAD: '1000006909.png'      
         };
 
-
+        // Cenários educativos sobre puberdade masculina (Dúvidas)
+        const scenarios = [
+            // PERGUNTAS INICIAIS
+            {
+                text: "Meus pelos estão crescendo em lugares novos. Isso é normal?",
+                options: [
+                    { text: "Fico preocupado e tento removê-los sem saber como.", effects: { confidence: -10, knowledge: -5 }, sfx: 'fail' },
+                    { text: "Entendo que é normal - hormônios causam crescimento de pelos.", effects: { confidence: +15, knowledge: +20 }, sfx: 'success' }
+                ]
+            },
+            {
+                text: "Tenho curiosidade sobre masturbação. É normal na adolescência?",
+                options: [
+                    { text: "Sinto vergonha e acho que é errado ou doentio.", effects: { confidence: -15, knowledge: -10 }, sfx: 'fail' },
+                    { text: "Entendo que é normal e saudável - faz parte do autoconhecimento.", effects: { confidence: +20, knowledge: +25 }, sfx: 'success' }
+                ]
+            },
+            {
+                text: "Minha voz está falhando e às vezes fica rouca. Isso é normal?",
+                options: [
+                    { text: "Fico envergonhado e evito falar alto na escola.", effects: { confidence: -15, knowledge: -5 }, sfx: 'fail' },
+                    { text: "Entendo que a laringe está crescendo e é temporário. Aceito a fase.", effects: { confidence: +20, knowledge: +20 }, sfx: 'success' }
+                ]
+            },
+             {
+                text: "Meus amigos já estão mais desenvolvidos que eu. Devo me preocupar?",
+                options: [
+                    { text: "Me comparo constantemente e fico ansioso e inseguro.", effects: { confidence: -20, health: -5 }, sfx: 'fail' },
+                    { text: "Entendo que cada pessoa tem seu próprio ritmo de desenvolvimento.", effects: { confidence: +25, knowledge: +20 }, sfx: 'success' }
+                ]
+            },
+            // NOVAS PERGUNTAS ADICIONADAS
+            {
+                text: "Ter 'sonhos molhados' ou acordar com a roupa úmida é normal?",
+                options: [
+                    { text: "Sim! São 'poluições noturnas', o corpo libera excesso de sêmen.", effects: { confidence: +25, knowledge: +20 }, sfx: 'success' },
+                    { text: "Não, isso é muito estranho e deve ser um problema hormonal.", effects: { confidence: -15, knowledge: -10 }, sfx: 'fail' }
+                ]
+            },
+            {
+                text: "O orgasmo dura sempre o mesmo tempo para todas as pessoas?",
+                options: [
+                    { text: "Não! A duração e a intensidade são diferentes para cada pessoa e momento.", effects: { confidence: +10, knowledge: +20 }, sfx: 'success' },
+                    { text: "Sim, há um tempo médio, se for diferente, algo pode estar errado.", effects: { confidence: -5, knowledge: -5 }, sfx: 'fail' }
+                ]
+            },
+            {
+                text: "Ter uma ereção 'do nada' (sem pensar nisso) é normal?",
+                options: [
+                    { text: "Sim! É comum na puberdade, causado por reflexos nervosos ou hormônios. É um sinal de corpo saudável.", effects: { confidence: +25, knowledge: +25 }, sfx: 'success' },
+                    { text: "Não, é constrangedor e significa que estou tendo pensamentos inadequados.", effects: { confidence: -20, knowledge: -10 }, sfx: 'fail' }
+                ]
+            },
+            {
+                text: "O que eu sinto não é importante. Devo guardar tudo para mim?",
+                options: [
+                    { text: "Não! Compartilhar sentimentos com alguém de confiança é fundamental para a saúde mental.", effects: { confidence: +30, health: +15 }, sfx: 'success' },
+                    { text: "Sim, é melhor ser forte e não incomodar os outros com meus problemas.", effects: { confidence: -20, health: -15 }, sfx: 'fail' }
+                ]
+            },
+        ];
+        
         // --- FUNÇÕES DE ÁUDIO ---
-        function playBGM() {
-            bgm.volume = 0.3; 
-            bgm.play().catch(e => console.log("BGM bloqueada pelo navegador."));
+        function playSound(soundName) {
+            if (isMuted) return;
+            const sounds = { 'click': sfxClick, 'success': sfxSuccess, 'fail': sfxFail, 'win': sfxWin };
+            const sound = sounds[soundName];
+            if (sound) {
+                sound.currentTime = 0;
+                // Adicionado .load() para forçar o navegador a ler o arquivo antes de tocar
+                sound.load(); 
+                sound.play().catch(e => console.log('Audio play failed:', e));
+            }
         }
 
-        function playWinSfx() {
-            winSfx.currentTime = 0;
-            winSfx.play();
-        }
+        function toggleMute() {
+            isMuted = !isMuted;
+            bgMusic.muted = isMuted;
+            sfxClick.muted = isMuted;
+            sfxSuccess.muted = isMuted;
+            sfxFail.muted = isMuted;
+            sfxWin.muted = isMuted; 
+            muteButton.textContent = isMuted ? '🔇' : '🔊';
 
-        function playErrorSfx() {
-            errorSfx.currentTime = 0;
-            errorSfx.play();
+            if (!isMuted) {
+                playMusic();
+            } else {
+                bgMusic.pause();
+                bgMusic.currentTime = 0;
+            }
         }
-
-        // --- FUNÇÕES DE JOGO ---
         
-        function setCharacterState(stateKey) {
-            const stateValue = characterStates[stateKey];
-            characterPhoto.style.backgroundImage = stateValue;
-            characterPhoto.textContent = ''; 
+        function playMusic() {
+            if (isMuted) return;
+            bgMusic.load(); 
+            bgMusic.play().catch(e => console.log("Autoplay music failed:", e));
         }
+        // --- FIM DAS FUNÇÕES DE ÁUDIO ---
         
-        function startQuiz() {
-            document.getElementById('video-section').style.display = 'none';
-            document.getElementById('quiz-section').style.display = 'block';
-            document.getElementById('question-counter').style.display = 'block';
-            
-            introVideo.pause(); 
-            playBGM(); 
-            
-            currentQuestionIndex = 0;
-            score = 0;
-            addHapticFeedback();
-            showQuestion();
+        // Função para trocar a imagem do avatar
+        function setCharacterImage(imageName) {
+            boyCharacter.src = `images/${imageName}`; 
         }
 
-        function showQuestion() {
-            const question = questions[currentQuestionIndex];
-            answered = false;
+        // --- LÓGICA DE CENÁRIO E PROGRESSO ---
+        
+        function updateScenario() {
+            // A transição de fundo é tratada no CSS (adicionada no styles.css)
             
-            const counterElement = document.getElementById('question-counter');
-            counterElement.style.animation = 'none';
-            setTimeout(() => {
-                counterElement.style.animation = 'counterBounce 0.6s ease-out';
-            }, 10);
+            if (gameState.medals >= 6) {
+                mainContent.className = 'main-content scenario-3'; 
+                showMessage("✨ Seu conhecimento atingiu a clareza máxima! Desbloqueou Cenário 3!", false);
+            } else if (gameState.medals >= 3) {
+                mainContent.className = 'main-content scenario-2';
+            } else {
+                mainContent.className = 'main-content scenario-1'; 
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('knowledge').textContent = Math.round(gameState.knowledge) + ' pts';
+            document.getElementById('medals').textContent = gameState.medals; 
             
-            document.getElementById('current-question').textContent = currentQuestionIndex + 1;
-            document.getElementById('total-questions').textContent = questions.length;
+            updateScenario();
+        }
+
+        function giveRewardItem() {
+            gameState.medals += 1; 
+            applyEffects({ knowledge: 30, confidence: 15 }); 
             
-            const progress = ((currentQuestionIndex) / questions.length) * 100;
-            document.getElementById('progress-fill').style.width = progress + '%';
+            showMessage('🎉 PRÊMIO! Você ganhou uma Medalha! Seu conhecimento está crescendo.', false);
+            playSound('win');
+            updateStats();
+        }
+
+
+        // --- LÓGICA DE PERGUNTAS E INTERAÇÃO ---
+        function triggerRandomScenario() {
+            if (document.getElementById('question-modal').style.display === 'flex') {
+                showMessage("Já temos uma dúvida ativa! Responda primeiro.", true);
+                playSound('fail');
+                return;
+            }
             
-            const questionBox = document.getElementById('question-box');
-            questionBox.style.animation = 'none';
-            setTimeout(() => {
-                questionBox.style.animation = 'questionSlide 0.8s ease-out';
-            }, 10);
+            const scenario = scenarios[Math.floor(Math.random() * scenarios.length)];
+            showQuestionModal(scenario);
+            playSound('win'); 
             
-            document.getElementById('question-text').textContent = question.question;
+            boyCharacter.classList.remove('boy-happy', 'boy-sad');
+            boyCharacter.classList.add('boy-sad'); 
             
-            const optionsContainer = document.getElementById('options-container');
-            optionsContainer.innerHTML = '';
+            thoughtBubble.textContent = "Uau, preciso responder isso!";
+        }
+
+        function showQuestionModal(scenario) {
+            const modal = document.getElementById('question-modal');
+            const text = document.getElementById('modal-scenario-text');
+            const container = document.getElementById('modal-options-container');
             
-            question.options.forEach((option, index) => {
+            text.textContent = scenario.text;
+            container.innerHTML = '';
+            
+            scenario.options.forEach((option, index) => {
                 const button = document.createElement('button');
-                button.className = 'option';
-                button.textContent = option;
-                button.onclick = () => selectAnswer(index, button);
-                button.style.animationDelay = (index * 0.1 + 0.1) + 's';
-                
-                button.addEventListener('mouseenter', () => {
-                    if (window.innerWidth > 768 && !button.disabled) {
-                        addHapticFeedback();
-                    }
-                });
-                
-                optionsContainer.appendChild(button);
+                button.className = 'modal-option';
+                button.textContent = option.text;
+                button.onclick = () => selectOption(option, scenario);
+                container.appendChild(button);
             });
             
-            document.getElementById('feedback').innerHTML = '';
-            document.getElementById('next-button').style.display = 'none';
+            modal.style.display = 'flex';
+        }
+        
+        function selectOption(option, scenario) {
+            applyEffects(option.effects);
+            document.getElementById('question-modal').style.display = 'none';
             
-            setCharacterState('neutral'); 
+            playSound(option.sfx);
+            
+            const isCorrect = option.sfx === 'success';
+
+            const feedbackText = `${isCorrect ? '✅ Resposta Correta!' : '❌ BOMBA! Resposta Incorreta.'}`;
+            showMessage(feedbackText, !isCorrect); 
+            
+            // Reação do personagem
+            boyCharacter.classList.remove('boy-happy', 'boy-sad'); 
+            
+            if (isCorrect) {
+                setCharacterImage(imageMap.HAPPY);
+                boyCharacter.classList.add('boy-happy');
+                thoughtBubble.textContent = "Acertei! Me sinto um super-herói do conhecimento!";
+                giveRewardItem(); 
+            } else {
+                setCharacterImage(imageMap.SAD);
+                boyCharacter.classList.add('boy-sad');
+                thoughtBubble.textContent = "Que pena, essa dúvida me deixou confuso. Preciso estudar mais.";
+            }
+            
+            // Retorna ao estado neutro após 3 segundos
+            setTimeout(() => {
+                boyCharacter.classList.remove('boy-happy', 'boy-sad');
+                setCharacterImage(imageMap.NEUTRAL); 
+                thoughtBubble.textContent = "Clique no garoto para aprender!";
+            }, 3000);
         }
 
-        function selectAnswer(selectedIndex, selectedButton) {
-            if (answered) return;
-            
-            answered = true;
-            addHapticFeedback();
-            
-            selectedButton.classList.add('option-selected', 'option-flip');
-            
-            const question = questions[currentQuestionIndex];
-            const options = document.querySelectorAll('.option');
-            
-            options.forEach((option, index) => {
-                option.disabled = true;
-                
-                setTimeout(() => {
-                    if (index === question.correct) {
-                        option.classList.add('correct');
-                    } else if (index === selectedIndex && index !== question.correct) {
-                        option.classList.add('incorrect');
+        // --- LÓGICA DE GERENCIAMENTO (MANTIDA) ---
+
+        function applyEffects(effects) {
+            Object.keys(effects).forEach(stat => {
+                if (gameState.hasOwnProperty(stat)) {
+                    if (stat !== 'knowledge') {
+                        gameState[stat] = Math.max(0, Math.min(100, gameState[stat] + effects[stat]));
                     } else {
-                        option.style.opacity = '0.6';
-                        option.style.transform = 'scale(0.95)';
-                    }
-                }, index * 100);
-            });
-            
-            const feedback = document.getElementById('feedback');
-            if (selectedIndex === question.correct) {
-                score++;
-                playWinSfx(); 
-                setCharacterState('correct'); 
-                showSoundEffect('correct');
-                feedback.innerHTML = `<div class="feedback-correct">✅ **Correto!** ${question.explanation}</div>`;
-                
-                characterPhoto.style.animation = 'none';
-                setTimeout(() => {
-                    characterPhoto.style.animation = 'characterBounce 0.5s ease-out 4';
-                }, 10);
-            } else {
-                playErrorSfx(); 
-                setCharacterState('incorrect'); 
-                showSoundEffect('incorrect');
-                feedback.innerHTML = `<div class="feedback-incorrect">❌ **Não foi dessa vez.** ${question.explanation}</div>`;
-                
-                characterPhoto.style.animation = 'incorrectShake 0.8s ease-out';
-            }
-            
-            const nextButton = document.getElementById('next-button');
-            nextButton.style.display = 'block';
-            nextButton.style.opacity = '0';
-            nextButton.style.transform = 'translateY(30px) scale(0.9)';
-            setTimeout(() => {
-                nextButton.style.transition = 'all 0.6s ease-out';
-                nextButton.style.opacity = '1';
-                nextButton.style.transform = 'translateY(0) scale(1)';
-            }, 800);
-        }
-
-        function nextQuestion() {
-            currentQuestionIndex++;
-            
-            if (currentQuestionIndex < questions.length) {
-                showQuestion();
-            } else {
-                showResults();
-            }
-        }
-
-        function showResults() {
-            bgm.pause(); 
-            document.getElementById('quiz-section').style.display = 'none';
-            document.getElementById('results-section').style.display = 'block';
-            document.getElementById('question-counter').style.display = 'none';
-            
-            const percentage = Math.round((score / questions.length) * 100);
-            document.getElementById('final-score').textContent = `${score} de ${questions.length} (${percentage}%)`;
-            
-            let message = '';
-            if (percentage >= 80) {
-                message = '🌟 Excelente! Você entende muito bem sobre puberdade!';
-            } else if (percentage >= 60) {
-                message = '👍 Muito bem! Você tem um bom conhecimento sobre o assunto!';
-            } else if (percentage >= 40) {
-                message = '📚 Bom trabalho! Continue aprendendo sobre seu corpo!';
-            } else {
-                message = '💪 Continue estudando! Conhecer seu corpo é muito importante!';
-            }
-            
-            document.getElementById('performance-message').innerHTML = `<p style="font-size: 1.3em; margin: 25px 0; font-weight: 600;">${message}</p>`;
-        }
-
-        function restartQuiz() {
-            document.getElementById('results-section').style.display = 'none';
-            document.getElementById('video-section').style.display = 'block';
-            currentQuestionIndex = 0;
-            score = 0;
-            introVideo.currentTime = 0; 
-        }
-        
-        // --- FUNÇÕES DE AUXÍLIO E ACESSIBILIDADE ---
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            const particleCount = window.innerWidth < 768 ? 20 : 40;
-            
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 6 + 's';
-                particle.style.animationDuration = (Math.random() * 4 + 5) + 's';
-                particlesContainer.appendChild(particle);
-            }
-        }
-        
-        function addHapticFeedback() {
-            if ('vibrate' in navigator) {
-                navigator.vibrate(75);
-            }
-        }
-        
-        function showSoundEffect(type) {
-            const effect = document.createElement('div');
-            effect.style.cssText = `
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                font-size: 4rem;
-                z-index: 1000;
-                pointer-events: none;
-                animation: soundEffect 1s ease-out forwards;
-            `;
-            
-            if (type === 'correct') {
-                effect.textContent = '🎉';
-                effect.style.color = '#4caf50';
-            } else if (type === 'incorrect') {
-                effect.textContent = '💫';
-                effect.style.color = '#f44336';
-            }
-            
-            document.body.appendChild(effect);
-            
-            setTimeout(() => {
-                document.body.removeChild(effect);
-            }, 1000);
-        }
-
-        // Initialize particles and interactions on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            createParticles();
-            
-            setCharacterState('neutral'); 
-            
-            // Adicionar navegação por teclado e listeners de resize
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    const activeElement = document.activeElement;
-                    if (activeElement && activeElement.classList.contains('option')) {
-                        e.preventDefault();
-                        activeElement.click();
+                        gameState[stat] = Math.max(0, gameState[stat] + effects[stat]);
                     }
                 }
             });
+            if (gameState.health <= 0 || gameState.confidence <= 0) {
+                 showMessage('Fim de jogo! Você não conseguiu gerenciar bem seu desenvolvimento.', true);
+                 playSound('fail');
+                 setTimeout(() => resetRoom(), 3000);
+            }
+        }
+
+        function doJob(jobType, reward, duration, emoji) {
+            if (gameState.activeJobs.has(jobType)) return;
+            gameState.activeJobs.set(jobType, true);
             
-            window.addEventListener('resize', () => {
-                const particlesContainer = document.getElementById('particles');
-                particlesContainer.innerHTML = '';
-                createParticles();
+            setTimeout(() => {
+                applyEffects({ knowledge: reward, confidence: 15 });
+                showMessage(`Atividade concluída! Ganho de ${reward} Conhecimento. 🧠`);
+                playSound('success');
+                gameState.activeJobs.delete(jobType);
+                updateStats();
+            }, duration);
+        }
+
+        function resetRoom() {
+            window.location.reload(); 
+        }
+
+        function showMessage(text, isError = false) {
+            const message = document.getElementById('message');
+            message.textContent = text;
+            message.className = 'message' + (isError ? ' error' : '');
+            message.classList.add('show');
+            
+            setTimeout(() => {
+                message.classList.remove('show');
+            }, 6000);
+        }
+
+        // --- FUNÇÃO DE INICIALIZAÇÃO CORRIGIDA ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const startButton = document.getElementById('start-button');
+            
+            // ANTES DE TUDO, CONFIGURA O BOTÃO PARA INICIAR O JOGO E O ÁUDIO
+            startButton.addEventListener('click', () => {
+                const splashScreen = document.getElementById('splash-screen');
+                splashScreen.style.opacity = '0';
+                setTimeout(() => {
+                    splashScreen.style.display = 'none';
+                    initializeGame(); // INICIA O JOGO APÓS O CLIQUE
+                }, 500);
             });
             
-            // Tenta iniciar a música de fundo
-            bgm.play().catch(() => console.log("Áudio de fundo bloqueado até a primeira interação."));
+            // O código abaixo é apenas para configurar o mute button no início, não inicia o jogo
+            muteButton.textContent = isMuted ? '🔇' : '🔊';
         });
+
+        function initializeGame() {
+            // ESTA FUNÇÃO SÓ RODA DEPOIS QUE O USUÁRIO CLICOU
+            updateStats();
+            // Tenta ligar a música se não estiver no mudo
+            if (isMuted === false) { 
+                playMusic(); 
+            }
+            setupCharacterInteraction();
+        }
     </script>
 </body>
 </html>
